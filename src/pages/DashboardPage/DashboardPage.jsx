@@ -1,7 +1,24 @@
 import React from "react";
+import styled from "styled-components";
+
+import Header from "components/Header";
+import ListingsGrid from "./ListingsGrid";
+
+const Container = styled.main`
+  margin: 40px auto 40px;
+  width: 100%;
+  max-width: var(--layout-width);
+`;
 
 const DashboardPage = () => {
-  return <div>DASHBOARD PAGE</div>;
+  return (
+    <>
+      <Header />
+      <Container>
+        <ListingsGrid />
+      </Container>
+    </>
+  );
 };
 
 export default DashboardPage;
