@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import {
   Container,
@@ -13,6 +14,10 @@ const HealthScoreCell = ({ record }) => {
       <HealthScoreLabel size="bodyMedium">Health Score</HealthScoreLabel>
     </Container>
   );
+};
+
+HealthScoreCell.propTypes = {
+  record: PropTypes.object.isRequired,
 };
 
 export default HealthScoreCell;

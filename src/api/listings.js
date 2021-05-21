@@ -6,10 +6,10 @@ export const fetchListings = async () => {
   return await get(`${ENDPOINT}/listings`);
 };
 
-export const fetchListing = async (id) => {
+export const fetchCalendarDates = async (id) => {
   return await get(`${ENDPOINT}/calendar/${id}`);
 };
 
-export const updateBasePrice = async (id, payload) => {
-  return await post(`${ENDPOINT}/calendar/${id}`, payload);
+export const updateBasePrice = async (id, basePrice) => {
+  return await post(`${ENDPOINT}/calendar/${id}`, { basePrice });
 };

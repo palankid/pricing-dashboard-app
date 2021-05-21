@@ -40,17 +40,26 @@ export const CalendarStyled = styled(AntdCalendar)`
   }
 `;
 
-export const DateCell = styled.div`
+export const DateCell = styled.a`
   position: relative;
   display: flex;
   height: 120px !important;
   align-items: center;
   justify-content: center;
   text-align: left;
-  ${({ bgVisible }) =>
+  ${({ bgVisible, isBlocked }) =>
     bgVisible &&
+    !isBlocked &&
     `
     background-color: var(--colors-wedgewood);
+  `}
+
+  ${({ isBlocked }) =>
+    isBlocked &&
+    `
+    &:hover {
+      border: 2px solid var(--colors-jordy-blue);
+    }
   `}
 `;
 
@@ -59,8 +68,20 @@ export const DateText = styled(Text)`
   top: 1px;
   left: 5px;
   color: var(--colors-porcelain);
+
+  ${({ isBlocked }) =>
+    isBlocked &&
+    `
+    color: var(--colors-silver);
+  `}
 `;
 
 export const PriceText = styled(Text)`
   color: var(--colors-blank);
+
+  ${({ isBlocked }) =>
+    isBlocked &&
+    `
+    color: var(--colors-glacier);
+  `}
 `;

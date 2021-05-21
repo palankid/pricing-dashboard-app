@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import BasePriceEditor from "./BasePriceEditor";
@@ -10,13 +11,23 @@ const Container = styled.div`
   border: 1px solid var(--colors-athens-gray);
 `;
 
-const CalendarContent = () => {
+const CalendarContent = ({ visible }) => {
+  if (!visible) return null;
+
   return (
     <Container>
       <BasePriceEditor />
       <CalendarView />
     </Container>
   );
+};
+
+CalendarContent.propTypes = {
+  visible: PropTypes.bool,
+};
+
+CalendarContent.defaultProps = {
+  visible: true,
 };
 
 export default CalendarContent;

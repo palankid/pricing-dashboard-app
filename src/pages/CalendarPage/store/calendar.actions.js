@@ -1,53 +1,57 @@
-import moment from "moment";
-
-import { fetchListing } from "api/listings";
+import { fetchCalendarDates, updateBasePrice } from "api/listings";
+import { transformCalendarDatesPayload } from "./calendar.helper";
 
 export const SET_LISTING = "CALENDAR:SET_LISTING";
 
-export const FETCH_LISTING = "CALENDAR:FETCH_LISTING";
-export const FETCH_LISTING_PROGRESS = "CALENDAR:FETCH_LISTING_PROGRESS";
-export const FETCH_LISTING_SUCCESS = "CALENDAR:FETCH_LISTING_SUCCESS";
-export const FETCH_LISTING_FAILURE = "CALENDAR:FETCH_LISTING_FAILURE";
+export const FETCH_CALENDAR_DATES_PROGRESS =
+  "CALENDAR:FETCH_CALENDAR_DATES_PROGRESS";
+export const FETCH_CALENDAR_DATES_SUCCESS =
+  "CALENDAR:FETCH_CALENDAR_DATES_SUCCESS";
+export const FETCH_CALENDAR_DATES_FAILURE =
+  "CALENDAR:FETCH_CALENDAR_DATES_FAILURE";
 
-export const setListing = (dispatch, record) => {
+export const SET_PREVIEW_BASE_PRICE = "CALENDAR:SET_PREVIEW_BASE_PRICE";
+
+export const UPDATE_BASE_PRICE_PROGRESS = "CALENDAR:UPDATE_BASE_PRICE_PROGRESS";
+export const UPDATE_BASE_PRICE_SUCCESS = "CALENDAR:UPDATE_BASE_PRICE_SUCCESS";
+export const UPDATE_BASE_PRICE_FAILURE = "CALENDAR:UPDATE_BASE_PRICE_FAILURE";
+
+export const setListing = (dispatch, listings, id) => {
+  const record = listings.find((listing) => listing.id === Number(id));
   dispatch({ type: SET_LISTING, payload: record });
 };
 
-export const getListing = async (dispatch, id) => {
-  dispatch({ type: FETCH_LISTING_PROGRESS });
+export const getCalendarDates = async (dispatch, id) => {
+  dispatch({ type: FETCH_CALENDAR_DATES_PROGRESS });
 
   try {
-    const result = await fetchListing(id);
+    const result = await fetchCalendarDates(id);
 
-    console.warn(result.days);
     dispatch({
-      type: FETCH_LISTING_SUCCESS,
-      payload: {
-        basePrice: result.basePrice,
-        days: result.days.reduce(
-          (acc, { date, factors: { seasonal, dayOfWeek }, isBlocked }) => {
-            const seasonalPriceAdd = result.basePrice * seasonal;
-            const dayOfWeekPriceAdd = result.basePrice * dayOfWeek;
-            const calculatedPrice =
-              result.basePrice + seasonalPriceAdd + dayOfWeekPriceAdd;
-
-            const month = moment(date).format("YYYY-MM");
-
-            acc[month] = acc[month] || {};
-            acc[month][date] = {
-              isBlocked,
-              seasonalPriceAdd: Math.round(seasonalPriceAdd),
-              dayOfWeekPriceAdd: Math.round(dayOfWeekPriceAdd),
-              calculatedPrice: Math.round(calculatedPrice),
-            };
-
-            return acc;
-          },
-          {}
-        ),
-      },
+      type: FETCH_CALENDAR_DATES_SUCCESS,
+      payload: transformCalendarDatesPayload(result),
     });
   } catch (error) {
-    error.name !== "AbortError" && dispatch({ type: FETCH_LISTING_FAILURE });
+    error.name !== "AbortError" &&
+      dispatch({ type: FETCH_CALENDAR_DATES_FAILURE });
+  }
+};
+
+export const setPreviewBasePrice = (dispatch, basePrice) => {
+  dispatch({ type: SET_PREVIEW_BASE_PRICE, payload: basePrice });
+};
+
+export const setBasePrice = async (dispatch, id, basePrice) => {
+  dispatch({ type: UPDATE_BASE_PRICE_PROGRESS });
+
+  try {
+    await updateBasePrice(id, basePrice);
+
+    dispatch({ type: UPDATE_BASE_PRICE_SUCCESS });
+
+    await getCalendarDates(dispatch, id);
+  } catch (error) {
+    error.name !== "AbortError" &&
+      dispatch({ type: UPDATE_BASE_PRICE_FAILURE });
   }
 };

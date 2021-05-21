@@ -21,6 +21,7 @@ const CalendarView = () => {
           <Calendar
             key={month}
             basePrice={store.basePrice}
+            previewBasePrice={store.previewBasePrice}
             month={month}
             days={store.days[month]}
           />

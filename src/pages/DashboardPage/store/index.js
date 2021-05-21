@@ -2,8 +2,8 @@ import {
   DashboardContextProvider,
   useDashboardStore,
   useDashboardDispatch,
-  dashboardActions,
 } from "./dashboard.store";
+import * as dashboardActions from "./dashboard.actions";
 
 export {
   DashboardContextProvider,

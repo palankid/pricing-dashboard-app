@@ -1,40 +1,59 @@
-import React from "react";
-import styled from "styled-components";
-import { Input } from "antd";
+import React, { useMemo } from "react";
+import { Button } from "antd";
 
-import Text from "components/Text";
-import { useCalendarStore } from "pages/CalendarPage/store";
+import { debounce } from "utils/functions.utils";
+import {
+  useCalendarStore,
+  useCalendarDispatch,
+  calendarActions,
+} from "pages/CalendarPage/store";
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 200px;
-  border-bottom: 1px solid var(--colors-athens-gray);
-`;
-
-const InputWrapper = styled.div``;
-
-const TextStyled = styled(Text)`
-  color: var(--colors-boulder);
-  text-transform: uppercase;
-`;
-
-const InputStyled = styled(Input)`
-  display: block;
-  margin-top: 10px;
-  width: 200px;
-`;
+import {
+  Container,
+  Content,
+  InputWrapper,
+  CurrencySign,
+  TextStyled,
+  InputStyled,
+} from "./BasePriceEditor.styled";
 
 const BasePriceEditor = () => {
   const store = useCalendarStore();
+  const dispatch = useCalendarDispatch();
+
+  const debouncedOnChange = useMemo(
+    () =>
+      debounce((nextValue) => {
+        calendarActions.setPreviewBasePrice(dispatch, nextValue || 0);
+      }, 500),
+    [dispatch]
+  );
+
+  const handleClick = () => {
+    calendarActions.setBasePrice(
+      dispatch,
+      store.listing.id,
+      store.previewBasePrice
+    );
+  };
 
   return (
     <Container>
-      <InputWrapper>
+      <Content>
         <TextStyled size="bodySmallBold">Base Price</TextStyled>
-        <InputStyled addonBefore="$" defaultValue={store.basePrice} />
-      </InputWrapper>
+        <InputWrapper>
+          <CurrencySign>$</CurrencySign>
+          <InputStyled
+            min={1}
+            max={99999}
+            defaultValue={store.basePrice}
+            onChange={debouncedOnChange}
+          />
+          <Button disabled={!store.previewBasePrice} onClick={handleClick}>
+            Set new base price
+          </Button>
+        </InputWrapper>
+      </Content>
     </Container>
   );
 };

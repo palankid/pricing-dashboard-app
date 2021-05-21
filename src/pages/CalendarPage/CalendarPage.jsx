@@ -3,12 +3,16 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
 import Header from "components/Header";
+import ErrorMessage from "components/ErrorMessage";
+import LoadingLogo from "components/LoadingLogo";
 
 import {
   calendarActions,
   useCalendarStore,
   useCalendarDispatch,
 } from "pages/CalendarPage/store";
+
+import { useDashboardStore } from "pages/DashboardPage/store";
 
 import ContentHeader from "./components/ContentHeader";
 import CalendarContent from "./components/CalendarContent";
@@ -22,21 +26,31 @@ const Container = styled.main`
 const CalendarPage = () => {
   const { id } = useParams();
   const store = useCalendarStore();
+  const dashboardStore = useDashboardStore();
   const dispatch = useCalendarDispatch();
 
-  console.log(store);
-
   useEffect(() => {
-    calendarActions.getListing(dispatch, id);
-  }, [dispatch, id]);
+    if (dashboardStore.listings.length) {
+      calendarActions.setListing(dispatch, dashboardStore.listings, id);
+      calendarActions.getCalendarDates(dispatch, id);
+    }
+  }, [dashboardStore.listings, dispatch, id]);
+
+  const content = {
+    [true]: (
+      <>
+        <ContentHeader record={store.listing} />
+        <CalendarContent />
+      </>
+    ),
+    [store.loading || dashboardStore.loading]: <LoadingLogo />,
+    [store.error || dashboardStore.error]: <ErrorMessage />,
+  };
 
   return (
     <>
       <Header />
-      <Container>
-        <ContentHeader record={store.listing} />
-        <CalendarContent />
-      </Container>
+      <Container>{content.true}</Container>
     </>
   );
 };

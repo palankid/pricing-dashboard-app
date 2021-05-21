@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Popover as AntdPopover } from "antd";
 
 import Text from "components/Text";
@@ -11,6 +12,8 @@ import {
   FullPriceText,
   PriceBreakdownSection,
   Divider,
+  BlockedWrapper,
+  BlockedIcon,
 } from "./Popover.styled";
 
 const BreakdownRow = ({ price, label, includeSign }) => {
@@ -29,6 +32,12 @@ const popoverContent = (basePrice, day) => (
   <ContentWrapper>
     <PriceSection>
       <DateText size="bodyMedium">January 24, 2020</DateText>
+      {day.isBlocked && (
+        <BlockedWrapper>
+          <BlockedIcon />
+          <Text>Blocked</Text>
+        </BlockedWrapper>
+      )}
       <FullPriceText size="h1">${day.calculatedPrice}</FullPriceText>
     </PriceSection>
 
@@ -36,12 +45,12 @@ const popoverContent = (basePrice, day) => (
       <BreakdownRow price={basePrice} label="Base" />
       <BreakdownRow
         includeSign
-        price={day.seasonalPriceAdd}
+        price={day.seasonalPriceFactor}
         label="Seasonality"
       />
       <BreakdownRow
         includeSign
-        price={day.dayOfWeekPriceAdd}
+        price={day.dayOfWeekPriceFactor}
         label="Day of week"
       />
       <Divider />
@@ -60,6 +69,15 @@ const Popover = ({ children, basePrice, day }) => {
       {children}
     </AntdPopover>
   );
+};
+
+Popover.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+  basePrice: PropTypes.number.isRequired,
+  day: PropTypes.object.isRequired,
 };
 
 export default Popover;

@@ -5,6 +5,8 @@ import * as calendarActions from "./calendar.actions";
 
 export const initialState = {
   days: {},
+  basePrice: 0,
+  previewBasePrice: 0,
   listing: {},
   loading: false,
   error: false,

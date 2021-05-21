@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 import Text from "components/Text";
 
+import { ReactComponent as BlockedIconUnstyled } from "theme/icons/blocked.svg";
+
 export const ContentWrapper = styled.div`
   color: var(--colors-blank);
   width: 300px;
@@ -14,6 +16,18 @@ export const PriceSection = styled.div`
   flex-direction: column;
   padding: 20px;
   background-color: var(--colors-mine-shaft-light);
+`;
+
+export const BlockedWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const BlockedIcon = styled(BlockedIconUnstyled)`
+  fill: var(--colors-blank);
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
 `;
 
 export const PriceBreakdownSection = styled.div`
