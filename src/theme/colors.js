@@ -6,6 +6,9 @@ const colors = css`
   --colors-redPink: #ff4a5a;
   --colors-cosmos: #ffdbde;
 
+  --colors-mine-shaft: #272727;
+  --colors-mine-shaft-light: #333333;
+  --colors-boulder: #777777;
   --colors-silver: #bbbbbb;
   --colors-athens-gray: #edeef1;
   --colors-porcelain: #f6f7f8;
@@ -19,6 +22,9 @@ const colors = css`
   --colors-linkWater: #f4f7fc;
 
   --colors-blank: #ffffff;
+
+  --colors-wedgewood: #4e969e;
+  --colors-glacier: #6db4be;
 `;
 
 export default colors;

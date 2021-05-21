@@ -7,6 +7,8 @@ import {
   useDashboardDispatch,
 } from "pages/DashboardPage/store";
 
+import { calendarActions, useCalendarDispatch } from "pages/CalendarPage/store";
+
 import { columns } from "./grid.config";
 import { TableStyled } from "./ListingsGrid.styled";
 
@@ -14,6 +16,7 @@ const ListingsGrid = () => {
   const history = useHistory();
   const store = useDashboardStore();
   const dispatch = useDashboardDispatch();
+  const calendarDispatch = useCalendarDispatch();
 
   function onChange(pagination, filters, sorter, extra) {
     console.log("params", pagination, filters, sorter, extra);
@@ -21,6 +24,7 @@ const ListingsGrid = () => {
 
   const handleRowClick = (record) => ({
     onClick: (event) => {
+      calendarActions.setListing(calendarDispatch, record);
       history.push(`/calendar/${record.id}`);
     },
   });

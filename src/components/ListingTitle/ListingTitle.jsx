@@ -8,15 +8,16 @@ import {
   TitleStyled,
   BedInfo,
   BedIcon,
-} from "./TitleCell.styled";
+} from "./ListingTitle.styled";
 
-const TitleCell = ({ record }) => {
-  console.log(record);
+const ListingTitle = ({ record, variant }) => {
   return (
     <Container>
       <Image src={record.picture} alt={record.title} />
       <DetailsWrapper>
-        <TitleStyled size="h5">{record.title}</TitleStyled>
+        <TitleStyled size="h5" variant={variant}>
+          {record.title}
+        </TitleStyled>
         <BedInfo>
           <BedIcon />
           <Text size="bodyMedium">{record.beds}</Text>
@@ -26,4 +27,4 @@ const TitleCell = ({ record }) => {
   );
 };
 
-export default TitleCell;
+export default ListingTitle;

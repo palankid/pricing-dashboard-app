@@ -1,17 +1,15 @@
-// import { addUrlParams } from "utils/network.utils";
-import { get } from "./api";
+import { get, post } from "./api";
 
 const ENDPOINT = "http://localhost:1024";
 
-export const fetchListings = async (params = {}) => {
+export const fetchListings = async () => {
   return await get(`${ENDPOINT}/listings`);
 };
 
-/* export const addPerson = async (person) => {
-  return await post(`${ENDPOINT}`, person);
+export const fetchListing = async (id) => {
+  return await get(`${ENDPOINT}/calendar/${id}`);
 };
 
-export const updatePerson = async (person) => {
-  return await patch(`${ENDPOINT}/${person.id}`, person);
+export const updateBasePrice = async (id, payload) => {
+  return await post(`${ENDPOINT}/calendar/${id}`, payload);
 };
-*/

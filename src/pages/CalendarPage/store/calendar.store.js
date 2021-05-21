@@ -4,6 +4,7 @@ import calendarReducer from "./calendar.reducer";
 import * as calendarActions from "./calendar.actions";
 
 export const initialState = {
+  days: {},
   listing: {},
   loading: false,
   error: false,

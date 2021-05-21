@@ -18,7 +18,9 @@ export const DetailsWrapper = styled.div`
 `;
 
 export const TitleStyled = styled(Text)`
-  color: var(--colors-darkBlue);
+  color: var(
+    --colors-${({ variant }) => (variant === "grey" ? "boulder" : "darkBlue")}
+  );
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;

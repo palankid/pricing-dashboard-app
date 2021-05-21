@@ -29,6 +29,14 @@ const GlobalStyles = createGlobalStyle`
   body {
     color: var(--colors-darkBlue);
     background-color: var(--colors-porcelain);
+
+    .ant-popover-arrow {
+      border-color: var(--colors-mine-shaft) !important;
+    }
+
+    .ant-popover-inner-content {
+      padding: 0;
+    }
   }
 `;
 

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import Header from "components/Header";
-import ListingsGrid from "./ListingsGrid";
+import ListingsGrid from "./components/ListingsGrid";
 
 const Container = styled.main`
   margin: 40px auto 40px;

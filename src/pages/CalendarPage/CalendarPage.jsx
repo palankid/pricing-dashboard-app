@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 
 import Header from "components/Header";
+
+import {
+  calendarActions,
+  useCalendarStore,
+  useCalendarDispatch,
+} from "pages/CalendarPage/store";
+
+import ContentHeader from "./components/ContentHeader";
+import CalendarContent from "./components/CalendarContent";
 
 const Container = styled.main`
   margin: 40px auto 40px;
@@ -10,11 +20,22 @@ const Container = styled.main`
 `;
 
 const CalendarPage = () => {
+  const { id } = useParams();
+  const store = useCalendarStore();
+  const dispatch = useCalendarDispatch();
+
+  console.log(store);
+
+  useEffect(() => {
+    calendarActions.getListing(dispatch, id);
+  }, [dispatch, id]);
+
   return (
     <>
       <Header />
       <Container>
-        <span>fsdfsdf</span>
+        <ContentHeader record={store.listing} />
+        <CalendarContent />
       </Container>
     </>
   );

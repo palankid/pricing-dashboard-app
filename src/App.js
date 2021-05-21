@@ -21,7 +21,7 @@ function App() {
             <Route path="/dashboard" exact>
               <DashboardPage />
             </Route>
-            <Route path="/calendar">
+            <Route path="/calendar/:id">
               <CalendarPage />
             </Route>
             <Route path="*">

@@ -1,4 +1,5 @@
 import {
+  SET_LISTING,
   FETCH_LISTING_PROGRESS,
   FETCH_LISTING_SUCCESS,
   FETCH_LISTING_FAILURE,
@@ -6,17 +7,23 @@ import {
 
 const dashboardReducer = (state, action) => {
   switch (action.type) {
-    case FETCH_LISTING_PROGRESS:
+    case SET_LISTING:
       return {
         ...state,
         listing: action.payload,
-        loading: false,
-        error: false,
       };
     case FETCH_LISTING_SUCCESS:
       return {
         ...state,
-        listing: {},
+        ...action.payload,
+        loading: false,
+        error: false,
+      };
+    case FETCH_LISTING_PROGRESS:
+      return {
+        ...state,
+        basePrice: null,
+        days: {},
         loading: true,
         error: false,
       };
