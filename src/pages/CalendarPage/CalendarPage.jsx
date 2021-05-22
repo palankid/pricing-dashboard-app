@@ -30,10 +30,12 @@ const CalendarPage = () => {
   const dispatch = useCalendarDispatch();
 
   useEffect(() => {
-    if (dashboardStore.listings.length) {
-      calendarActions.setListing(dispatch, dashboardStore.listings, id);
-      calendarActions.getCalendarDates(dispatch, id);
+    if (!dashboardStore.listings.length) {
+      return;
     }
+
+    calendarActions.setListing(dispatch, dashboardStore.listings, id);
+    calendarActions.getCalendarDates(dispatch, id);
   }, [dashboardStore.listings, dispatch, id]);
 
   const content = {

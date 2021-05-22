@@ -45,7 +45,7 @@ const BasePriceEditor = () => {
           <CurrencySign>$</CurrencySign>
           <InputStyled
             min={1}
-            max={99999}
+            maxLength={5}
             defaultValue={store.basePrice}
             onChange={debouncedOnChange}
           />

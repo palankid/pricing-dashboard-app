@@ -6,7 +6,6 @@ import { theme, GlobalStyles } from "./theme";
 
 import {
   dashboardActions,
-  useDashboardStore,
   useDashboardDispatch,
 } from "pages/DashboardPage/store";
 
@@ -17,14 +16,9 @@ import "antd/dist/antd.css";
 import "theme/fonts/fonts.css";
 
 function App() {
-  const { listings, loading, error } = useDashboardStore();
   const dispatch = useDashboardDispatch();
 
-  useEffect(() => {
-    if (!listings.length && !loading && !error) {
-      dashboardActions.getListings(dispatch);
-    }
-  }, [listings, loading, error, dispatch]);
+  useEffect(() => dashboardActions.getListings(dispatch), [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>
